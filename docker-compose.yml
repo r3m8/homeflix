@@ -1,0 +1,36 @@
+services:
+  db:
+    container_name: homeflix_db
+    image: mariadb:11.4.2-ubi9
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=homeflix
+      - MYSQL_DATABASE=homeflix
+      - MYSQL_USER=homeflix
+      - MYSQL_PASSWORD=homeflix
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./populate.sql:/docker-entrypoint-initdb.d/populate.sql
+      - db-data:/var/lib/mysql
+
+  php:
+    container_name : homeflix_php
+    build: .
+    restart: always
+    volumes:
+      - ./web:/var/www/html
+
+  web:
+    container_name: homeflix_web
+    image: nginx:1.27.0-alpine
+    ports:
+      - "8008:80"
+    volumes:
+      - ./web:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - db
+
+volumes:
+  db-data:
