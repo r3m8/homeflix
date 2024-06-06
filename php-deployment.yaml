@@ -24,13 +24,6 @@ spec:
         io.kompose.service: php
     spec:
       containers:
-        - image: php
+        - image: rg.fr-par.scw.cloud/namespace-hungry-sanderson/homeflix-php-cloud:latest
           name: homeflix-php
-          volumeMounts:
-            - mountPath: /var/www/html
-              name: php-claim0
       restartPolicy: Always
-      volumes:
-        - name: php-claim0
-          persistentVolumeClaim:
-            claimName: php-claim0

@@ -37,19 +37,18 @@ spec:
           name: homeflix-db
           volumeMounts:
             - mountPath: /docker-entrypoint-initdb.d/data.sql
-              name: db-claim0
+              name: db-init
+              subPath: data.sql
             - mountPath: /docker-entrypoint-initdb.d/populate.sql
-              name: db-claim1
+              name: db-init
+              subPath: populate.sql
             - mountPath: /var/lib/mysql
               name: db-data
       restartPolicy: Always
       volumes:
-        - name: db-claim0
-          persistentVolumeClaim:
-            claimName: db-claim0
-        - name: db-claim1
-          persistentVolumeClaim:
-            claimName: db-claim1
+        - name: db-init
+          configMap:
+            name: init-db-configmap
         - name: db-data
           persistentVolumeClaim:
             claimName: db-data
