@@ -26,4 +26,6 @@ spec:
       containers:
         - image: rg.fr-par.scw.cloud/namespace-hungry-sanderson/homeflix-php-cloud:latest
           name: homeflix-php
+          ports:
+            - containerPort: 9000
       restartPolicy: Always
