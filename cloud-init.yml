@@ -1,0 +1,22 @@
+#cloud-config
+
+runcmd:
+  - curl -sSLf https://get.k0s.sh | sudo sh
+  - k0s install controller --single
+  - systemctl daemon-reload
+  - k0s start
+  - mkdir -p /srv/pv/{db-data,db-claim1,db-claim0}
+  - sleep 10
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/db-claim0-persistentvolume.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/db-claim1-persistentvolume.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/db-data-persistentvolume.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/db-claim0-persistentvolumeclaim.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/db-claim1-persistentvolumeclaim.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/db-data-persistentvolumeclaim.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/db-deployment.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/db-service.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/web-deployment.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/web-service.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/php-service.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/php-deployment.yaml
+  - k0s kubectl apply -f https://raw.githubusercontent.com/r3m8/homeflix/main/init-db-configmap.yaml

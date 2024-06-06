@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$db_host = 'homeflix_db';
+$db_host = 'db-service';
 $db_name = 'homeflix';
 $db_user = 'homeflix';
 $db_passwd = 'homeflix';
